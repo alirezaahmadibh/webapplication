@@ -90,8 +90,8 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
 
         {
-            id: user.id,
-            email: user.email
+            "id": user._id,
+            "email": user.email
         },
 
         secretkey,
@@ -107,7 +107,8 @@ router.post('/login', async (req, res) => {
 
         httpOnly: true,
 
-        maxAge: 60 * 60 * 1000 // 1 hour
+        maxAge: 60 * 60 * 1000, // 1 hour
+        path:'/'
 
     });
 

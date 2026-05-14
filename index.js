@@ -4,6 +4,8 @@ const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const User = require('./models/user.model');
+const homeRoutes = require('./routes/home.route');
 
 const app = express();
 const port = 3000;
@@ -13,11 +15,9 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use('/', homeRoutes);
 
 
-app.get('/', async(req, res) => {
-    res.send({"Message": "Wellcome"})
-})
 
 // Start server
 app.listen(port, async () => {
