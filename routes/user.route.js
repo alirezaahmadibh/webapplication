@@ -1,53 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+
 const User = require('../models/user.model');
+
+const { requireAuth } = require('../middlewares/auth.middleware');
 
 
 // Profile
-router.get('/profile', async (req, res) => {
-
-    const { token } = req.cookies;
-
-    const secretkey = 'your_secret_key';
-
-    // No token
-    if (!token) {
-
-        return res.redirect('/auth/login');
-
-    }
-
+router.get('/profile', requireAuth, async (req, res) => {
+    console.log(res.locals.decoded);
     try {
-
-        // Verify token
-        const decoded = jwt.verify(token, secretkey);
 
         // Find user
         const user = await User.findOne({
+
             where: {
-                email: decoded.email
+                email: res.locals.decoded.email
             }
+
         });
 
-        // User not found
-        if (!user) {
+        // User found
+        if (user) {
+
+            return res.render('profile', {
+
+                user: user
+
+            });
+
+        } else {
 
             return res.redirect('/auth/login');
 
         }
-
-        // Render profile page
-        return res.render('profile', {
-
-            user: {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email
-            }
-
-        });
 
     } catch (error) {
 
