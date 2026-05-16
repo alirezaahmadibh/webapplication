@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.3",
     "mailgun-js": "^0.22.0",
     "mailgun.js": "^13.0.1",
+    "multer": "^2.1.1",
     "mysql2": "^3.22.3",
     "nodemon": "^3.1.14",
     "sequelize": "^6.37.8"

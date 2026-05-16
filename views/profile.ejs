@@ -20,6 +20,7 @@
                             width="140"
                             height="140"
                             alt="Profile"
+                            id="profilePreview"
                         >
 
                     </div>
@@ -39,7 +40,12 @@
                             Last seen recently
                         </p>
 
-                        <button class="btn btn-primary">
+                        <!-- CHANGE PHOTO BUTTON -->
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="document.getElementById('profile_picture').click()"
+                        >
                             Change Photo
                         </button>
 
@@ -54,35 +60,22 @@
 
             </div>
 
-            <!-- TABS -->
-            <ul class="nav nav-tabs mt-4">
-
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        Settings
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/change-password">
-                        Change Password
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-primary" href="/auth/logout">
-                        Logout
-                    </a>
-                </li>
-
-            </ul>
-
             <!-- PROFILE FORM -->
             <form
                 action="/user/profile"
                 method="POST"
+                enctype="multipart/form-data"
                 class="mt-4"
             >
+
+                <!-- HIDDEN FILE INPUT -->
+                <input
+                    type="file"
+                    name="profile_picture"
+                    id="profile_picture"
+                    accept="image/*"
+                    hidden
+                >
 
                 <div class="row">
 
@@ -184,4 +177,23 @@
 
 </div>
 
-        <%- include ('footer') %>
+<script>
+
+    const fileInput = document.getElementById('profile_picture');
+    const preview = document.getElementById('profilePreview');
+
+    fileInput.addEventListener('change', function () {
+
+        const file = this.files[0];
+
+        if (file) {
+
+            preview.src = URL.createObjectURL(file);
+
+        }
+
+    });
+
+</script>
+
+<%- include ('footer') %>
